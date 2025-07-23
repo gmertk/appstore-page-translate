@@ -1,0 +1,13 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Upload localized metadata only"
+  lane :upload_metadata do
+    deliver(
+      skip_binary_upload: true,   # Don’t upload the app binary
+      skip_screenshots: true,     # Skip screenshots (unless you want to localize those too)
+      force: true,                # Skip confirmation prompts
+      submit_for_review: false    # Don't submit the app after upload
+    )
+  end
+end
