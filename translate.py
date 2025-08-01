@@ -47,17 +47,23 @@ target_languages = {
 
 # Files to process
 files_to_translate = ["name.txt", "subtitle.txt",
-                      "description.txt", "keywords.txt", "promotional_text.txt"]
+                      "description.txt", "keywords.txt", "promotional_text.txt", "release_notes.txt"]
 
 # Read English metadata
 en_dir = os.path.join("fastlane", "metadata", "en-US")
 metadata_en = {}
 
+# Build list of files that actually exist
+available_files = []
 for file_name in files_to_translate:
-    with open(os.path.join(en_dir, file_name), "r") as f:
-        metadata_en[file_name] = f.read().strip()
+    file_path = os.path.join(en_dir, file_name)
+    if os.path.exists(file_path):
+        with open(file_path, "r") as f:
+            metadata_en[file_name] = f.read().strip()
+        available_files.append(file_name)
 
-# Function to translate text
+# Update files_to_translate to only include available files
+files_to_translate = available_files
 
 
 def translate_text(text, target_language_name, file_name=None):
