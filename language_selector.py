@@ -2,20 +2,20 @@ class LanguageSelector:
     def __init__(self, languages):
         self.languages = languages
 
-    def select_languages(self):
+    def select_languages(self, user_input=None):
         print("Available languages for translation:")
         language_list = list(self.languages.items())
         for i, (locale_code, language_name) in enumerate(language_list):
             print(f"  {i + 1}: {language_name} ({locale_code})")
 
         print("\nPress ENTER to translate all languages, or enter the numbers of languages to EXCLUDE, separated by commas.")
-        user_input = ""
-        try:
-            user_input = input("Languages to exclude (e.g., 1, 5, 12): ")
-        except EOFError:
-            pass  # Treat EOF (running from a file) as empty input
+        if user_input is None:
+            try:
+                user_input = input("Languages to exclude (e.g., 1, 5, 12): ")
+            except EOFError:
+                user_input = ""  # Treat EOF (running from a file) as empty input
 
-        if not user_input:
+        if not user_input.strip():
             print("\n✅ Translating all languages.")
             return self.languages
 
